@@ -9,3 +9,4 @@
 set -e # Exit on failure
 
 # (This file is empty since JavaScript programs don't use a compile step)
+exec npm run build "$@"
