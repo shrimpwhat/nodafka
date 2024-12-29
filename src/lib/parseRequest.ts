@@ -1,6 +1,8 @@
-function parseHeader(buffer: Buffer): MessageHeader {
+import type { RequestHeader, RequestMessage } from "../types";
+
+function parseHeader(buffer: Buffer): RequestHeader {
   const requestApiKey = buffer.readInt16BE();
-  const requestApiVersion = buffer.readInt16BE(4);
+  const requestApiVersion = buffer.readInt16BE(2);
   const correlationId = buffer.readInt32BE(4);
 
   return {
@@ -10,14 +12,14 @@ function parseHeader(buffer: Buffer): MessageHeader {
   };
 }
 
-export default function getRequestMsg(msg: ArrayBufferLike): Message {
+export default function parseRequest(msg: ArrayBufferLike): RequestMessage {
   const buffer = Buffer.from(msg);
 
   const messageSize = buffer.readInt32BE();
 
   const header = parseHeader(buffer.subarray(4));
 
-  const body = new Uint8Array([]);
+  const body = Buffer.from([]);
 
   return { messageSize, header, body };
 }

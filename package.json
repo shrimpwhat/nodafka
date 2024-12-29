@@ -2,7 +2,7 @@
   "name": "nodafka",
   "version": "1.0.0",
   "scripts": {
-    "dev": "nodemon app/main.ts",
+    "dev": "nodemon src/main.ts",
     "build": "tsc",
     "start": "node build/main.js"
   },

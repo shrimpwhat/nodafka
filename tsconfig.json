@@ -8,7 +8,6 @@
     "lib": ["ESNext"],
     "strict": true
   },
-  "include": ["app/**/*"],
-  "exclude": ["node_modules"],
-  "files": ["app/global.d.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
