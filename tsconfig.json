@@ -6,9 +6,9 @@
     "esModuleInterop": true,
     "moduleResolution": "nodenext",
     "lib": ["ESNext"],
-    "strict": true,
-    "rootDir": "./app"
+    "strict": true
   },
-  "include": ["./app"],
-  "exclude": ["node_modules"]
+  "include": ["app/**/*"],
+  "exclude": ["node_modules"],
+  "files": ["app/global.d.ts"]
 }

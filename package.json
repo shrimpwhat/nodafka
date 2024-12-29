@@ -1,5 +1,5 @@
 {
-  "name": "@codecrafters/kafka",
+  "name": "nodafka",
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon app/main.ts",

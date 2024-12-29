@@ -1,18 +1,13 @@
 import net from "node:net";
+import getRequestMsg from "./lib/getRequestMsg";
+import createResponseMsg from "./lib/createResponseMsg";
 
 const server = net.createServer((connection) => {
-  // Handle request message
+  // Handle client message
   connection.on("data", (req) => {
-    // get int32 with offset 8 bytes
-    const correlation_id = req.buffer.slice(8, 13);
+    const msg = getRequestMsg(req.buffer);
 
-    // response message
-    const buffer = Buffer.alloc(8);
-
-    buffer.writeInt32BE(0, 0); // message_size
-    buffer.fill(Buffer.from(correlation_id), 4);
-
-    connection.write(buffer);
+    connection.write(createResponseMsg(msg));
   });
 });
 
