@@ -1,5 +1,7 @@
 interface MessageHeader {
-  correlation_id: number;
+  requestApiKey: number;
+  requestApiVersion: number;
+  correlationId: number;
 }
 
 interface MessgaeBody extends Uint8Array {}

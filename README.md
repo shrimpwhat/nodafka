@@ -1,1 +1,1 @@
-Lightweight Node.js Kafka implementation
+Lightweight Node.js Kafka(v4 API) implementation
