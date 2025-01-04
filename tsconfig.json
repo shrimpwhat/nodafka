@@ -6,7 +6,10 @@
     "esModuleInterop": true,
     "moduleResolution": "nodenext",
     "lib": ["ESNext"],
-    "strict": true
+    "strict": true,
+    "paths": {
+      "@types": ["./src/types/index.ts"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

@@ -1,4 +1,4 @@
-import type { ResponseBody, ResponseHeader, ResponseMessage } from "../types";
+import type { ResponseHeader, ResponseMessage } from "../types";
 
 function parseHeader(header: ResponseHeader) {
   const buffer = Buffer.alloc(4);
@@ -6,21 +6,15 @@ function parseHeader(header: ResponseHeader) {
   return buffer;
 }
 
-function parseBody(body: ResponseBody) {
-  const errorCode = Buffer.alloc(2);
-  errorCode.writeInt16BE(body.errorCode);
-  return errorCode;
-}
-
 export default function parseResponse(response: ResponseMessage) {
-  const messageSizeBuffer = Buffer.alloc(4);
-  messageSizeBuffer.writeInt32BE(response.messageSize);
+  const headerBuffer = parseHeader(response.header);
 
-  const buffer = Buffer.concat([
-    messageSizeBuffer,
-    parseHeader(response.header),
-    parseBody(response.body),
-  ]);
+  const responseBuffer = Buffer.concat([headerBuffer, response.body]);
+
+  const messageSizeBuffer = Buffer.alloc(4);
+  messageSizeBuffer.writeInt32BE(responseBuffer.length);
+
+  const buffer = Buffer.concat([messageSizeBuffer, responseBuffer]);
 
   return buffer;
 }
