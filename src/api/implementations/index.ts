@@ -1,2 +1,2 @@
-export * from "./ApiVersions.js";
-export * from "./DescribeTopicPartitions.js";
+export * from "./APIVersions/index.js";
+export * from "./DescribeTopicPartitions/index.js";

@@ -1,5 +1,5 @@
-import { SUPPORTED_VERSIONS } from "../versions.js";
-import { TAG_BUFFER } from "../../constants.js";
+import { SUPPORTED_VERSIONS } from "../../versions.js";
+import { EMPTY_TAG_BUFFER } from "../../../constants.js";
 
 const apiKeys = Object.entries(SUPPORTED_VERSIONS).map(([k, v]) => {
   const key = Buffer.alloc(2);
@@ -10,7 +10,7 @@ const apiKeys = Object.entries(SUPPORTED_VERSIONS).map(([k, v]) => {
   const max = Buffer.alloc(2);
   max.writeInt16BE(v.max);
 
-  return Buffer.concat([key, min, max, TAG_BUFFER]);
+  return Buffer.concat([key, min, max, EMPTY_TAG_BUFFER]);
 });
 
 export function APIVersion() {
@@ -27,6 +27,6 @@ export function APIVersion() {
     errorCodeBuffer,
     apiKeysBuffer,
     throttleBuffer,
-    TAG_BUFFER,
+    EMPTY_TAG_BUFFER,
   ]);
 }

@@ -18,3 +18,8 @@ export interface ResponseMessage {
   header: ResponseHeader;
   body: Buffer;
 }
+
+export interface ReadBuffer<T = Buffer> {
+  value: T;
+  nextOffset: number;
+}
