@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
+    "lib": ["ESNext"],
     "target": "ESNext",
-    "module": "NodeNext",
-    "outDir": "./build",
+    "module": "nodenext",
     "esModuleInterop": true,
     "moduleResolution": "nodenext",
-    "lib": ["ESNext"],
     "strict": true,
-    "paths": {
-      "@types": ["./src/types/index.ts"]
-    }
+    "verbatimModuleSyntax": true,
+    "noUncheckedIndexedAccess": true,
+    "strictNullChecks": true,
+    "outDir": "build"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

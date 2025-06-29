@@ -1,4 +1,4 @@
-import type { RequestHeader, RequestMessage } from "../types";
+import type { RequestHeader, RequestMessage } from "./types.js";
 
 function parseHeader(buffer: Buffer): RequestHeader {
   const requestApiKey = buffer.readInt16BE();
@@ -12,7 +12,7 @@ function parseHeader(buffer: Buffer): RequestHeader {
   };
 }
 
-export default function parseRequest(msg: ArrayBufferLike): RequestMessage {
+export function parseRequest(msg: ArrayBufferLike): RequestMessage {
   const buffer = Buffer.from(msg);
 
   const messageSize = buffer.readInt32BE();

@@ -1,13 +1,13 @@
-import type { ResponseHeader, ResponseMessage } from "../types";
+import type { ResponseHeader, ResponseMessage } from "./types.js";
 
-function parseHeader(header: ResponseHeader) {
+function serializeHeader(header: ResponseHeader) {
   const buffer = Buffer.alloc(4);
   buffer.writeInt32BE(header.correlationId);
   return buffer;
 }
 
-export default function parseResponse(response: ResponseMessage) {
-  const headerBuffer = parseHeader(response.header);
+export function serializeResponse(response: ResponseMessage) {
+  const headerBuffer = serializeHeader(response.header);
 
   const responseBuffer = Buffer.concat([headerBuffer, response.body]);
 

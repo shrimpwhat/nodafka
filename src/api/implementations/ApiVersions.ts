@@ -1,5 +1,6 @@
-import { RequestMessage } from "@types";
-import SUPPORTED_VERSIONS from "../versions";
+import type { RequestMessage } from "../../protocol/types.js";
+import { SUPPORTED_VERSIONS } from "../versions.js";
+import { TAG_BUFFER } from "../../constants.js";
 
 const apiKeys = Object.entries(SUPPORTED_VERSIONS).map(([k, v]) => {
   const key = Buffer.alloc(2);
@@ -10,27 +11,23 @@ const apiKeys = Object.entries(SUPPORTED_VERSIONS).map(([k, v]) => {
   const max = Buffer.alloc(2);
   max.writeInt16BE(v.max);
 
-  return Buffer.concat([key, min, max]);
+  return Buffer.concat([key, min, max, TAG_BUFFER]);
 });
 
-const NULL_TAG = Buffer.from([0, 0]);
-
-export default function handler(req: RequestMessage) {
+export function APIVersion(req: RequestMessage) {
   const errorCodeBuffer = Buffer.alloc(2);
-  errorCodeBuffer.writeInt16BE(0);
 
   const keysCount = Buffer.alloc(1);
-  keysCount.writeInt8(apiKeys.length);
+  keysCount.writeInt8(apiKeys.length + 1);
 
-  const apiKeysBuffer = Buffer.concat([keysCount, ...apiKeys, NULL_TAG]);
+  const apiKeysBuffer = Buffer.concat([keysCount, ...apiKeys, TAG_BUFFER]);
 
   const throttleBuffer = Buffer.alloc(4);
-  throttleBuffer.writeInt32BE(0);
 
   return Buffer.concat([
     errorCodeBuffer,
     apiKeysBuffer,
     throttleBuffer,
-    NULL_TAG,
+    TAG_BUFFER,
   ]);
 }
