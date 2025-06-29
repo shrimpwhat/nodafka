@@ -1,4 +1,3 @@
-import type { RequestMessage } from "../../protocol/types.js";
 import { SUPPORTED_VERSIONS } from "../versions.js";
 import { TAG_BUFFER } from "../../constants.js";
 
