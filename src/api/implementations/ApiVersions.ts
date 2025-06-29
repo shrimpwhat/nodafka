@@ -14,13 +14,13 @@ const apiKeys = Object.entries(SUPPORTED_VERSIONS).map(([k, v]) => {
   return Buffer.concat([key, min, max, TAG_BUFFER]);
 });
 
-export function APIVersion(req: RequestMessage) {
+export function APIVersion() {
   const errorCodeBuffer = Buffer.alloc(2);
 
   const keysCount = Buffer.alloc(1);
   keysCount.writeInt8(apiKeys.length + 1);
 
-  const apiKeysBuffer = Buffer.concat([keysCount, ...apiKeys, TAG_BUFFER]);
+  const apiKeysBuffer = Buffer.concat([keysCount, ...apiKeys]);
 
   const throttleBuffer = Buffer.alloc(4);
 

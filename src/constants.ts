@@ -1,1 +1,1 @@
-export const TAG_BUFFER = Buffer.from([0, 0]);
+export const TAG_BUFFER = Buffer.from([0]);

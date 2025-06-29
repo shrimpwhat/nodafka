@@ -39,5 +39,6 @@ function callAPI(key: number, request: RequestMessage): Buffer<ArrayBuffer> {
     return error;
   }
 
+  console.log("Response body:", result);
   return result;
 }

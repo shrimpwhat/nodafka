@@ -13,8 +13,9 @@ const server = net.createServer((connection) => {
     const response = handleRequest(request);
 
     const serialized = serializeResponse(response);
+
     connection.write(serialized);
   });
 });
 
-server.listen(9092, "127.0.0.1");
+server.listen(9092, "0.0.0.0");
