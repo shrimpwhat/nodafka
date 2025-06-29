@@ -31,18 +31,13 @@ export function handleRequest(request: RequestMessage): ResponseMessage {
 }
 
 function callAPI(key: number, request: RequestMessage): Buffer<ArrayBuffer> {
-  const error = Buffer.alloc(2);
-  error.writeInt16BE(-1); // UNKNOWN_SERVER_ERROR
-
-  try {
-    const result = API[key]?.(request.body);
-    if (!result) {
-      return error;
-    }
-
-    console.log("Response body:", result);
-    return result;
-  } catch {
+  const result = API[key]?.(request.body);
+  if (!result) {
+    const error = Buffer.alloc(2);
+    error.writeInt16BE(-1); // UNKNOWN_SERVER_ERROR
     return error;
   }
+
+  console.log("Response body:", result);
+  return result;
 }

@@ -1,4 +1,4 @@
-import { readVarInt } from "./varInt.js";
+import { readVarInt, writeVarInt } from "./varInt.js";
 
 export function readCompactArray(
   buffer: Buffer,
@@ -13,4 +13,10 @@ export function readCompactArray(
   }
 
   return currentOffset;
+}
+
+export function writeCompactArray(array: Buffer[]) {
+  const length = writeVarInt(array.length + 1);
+
+  return Buffer.concat([length, ...array]);
 }

@@ -1,7 +1,19 @@
+import { writeCompactArray } from "../../../utils/index.js";
 import { parseBody } from "./parseBody.js";
 
 export function DescribeTopicPartitions(body: Buffer) {
   const parsedBody = parseBody(body);
 
-  return Buffer.alloc(0);
+  const response: Buffer[] = [];
+
+  for (const topic of parsedBody.topics) {
+    const errorCode = Buffer.from([0, 3]); // UNKNOWN_TOPIC_OR_PARTITION
+    const topicName = Buffer.from(topic);
+    const topicId = Buffer.from("00000000-0000-0000-0000-000000000000");
+    const partitions = writeCompactArray([]);
+
+    response.push(Buffer.concat([errorCode, topicName, topicId, partitions]));
+  }
+
+  return response;
 }
