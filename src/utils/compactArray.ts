@@ -8,7 +8,7 @@ export function readCompactArray(
   const { value: length, nextOffset } = readVarInt(buffer, offset);
   let currentOffset = nextOffset;
 
-  for (let i = 0; i < length; ++i) {
+  for (let i = 0; i < length - 1; ++i) {
     currentOffset = fn(currentOffset);
   }
 

@@ -1,9 +1,7 @@
-import type { ReadBuffer } from "../protocol/types.js";
-
 export function readString(buffer: Buffer, offset: number, lengthSize = 2) {
   const length = buffer.readIntBE(offset, lengthSize);
   const start = offset + lengthSize;
-  const end = start + length + 1;
+  const end = start + length;
   const value = buffer.subarray(start, end).toString();
 
   return { value, nextOffset: end, length };

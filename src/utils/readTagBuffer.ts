@@ -3,6 +3,7 @@ import { readVarInt } from "./varInt.js";
 export function readTagBuffer(buffer: Buffer, intialOffset: number) {
   let offset = intialOffset;
   const { value: numTaggedFields, nextOffset } = readVarInt(buffer, offset);
+  // console.log({ intialOffset, numTaggedFields, nextOffset });
   offset = nextOffset;
 
   const taggedFields = new Map<number, Buffer>();
