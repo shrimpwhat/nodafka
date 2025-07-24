@@ -1,43 +1,50 @@
-import type { RequestMessage, ResponseMessage } from "./types.js";
+import type {
+  RequestHeader,
+  RequestMessage,
+  ResponseMessage,
+} from "./types.js";
 import API from "../api/index.js";
 import { SUPPORTED_VERSIONS } from "../api/versions.js";
+import { responseHeaderV0 } from "./header.js";
+import { ERROR_CODE } from "./errorCode.js";
 
-export function handleRequest(request: RequestMessage): ResponseMessage {
-  const header = { correlationId: request.header.correlationId };
-
-  let body = Buffer.alloc(2);
-
+export function handleRequest(request: RequestMessage) {
   const { requestApiKey, requestApiVersion } = request.header;
   const supportedAPIVersion = SUPPORTED_VERSIONS[requestApiKey];
 
   if (!supportedAPIVersion) {
-    body.writeInt16BE(42); // INVALID_REQUEST
-    return { header, body };
+    return getErrorResponse(ERROR_CODE.INVALID_REQUEST, request.header);
   }
 
   if (
     requestApiVersion < supportedAPIVersion.min ||
     requestApiVersion > supportedAPIVersion.max
   ) {
-    body.writeInt16BE(35); // UNSUPPORTED_VERSION
-  } else {
-    body = callAPI(requestApiKey, request);
+    return getErrorResponse(ERROR_CODE.UNSUPPORTED_VERSION, request.header);
   }
 
-  return {
-    header,
-    body,
-  };
+  const response = callAPI(requestApiKey, request);
+
+  return response;
 }
 
-function callAPI(key: number, request: RequestMessage): Buffer<ArrayBuffer> {
-  const result = API[key]?.(request.body);
+function callAPI(key: number, request: RequestMessage): ResponseMessage {
+  const result = API[key]?.(request);
   if (!result) {
-    const error = Buffer.alloc(2);
-    error.writeInt16BE(-1); // UNKNOWN_SERVER_ERROR
-    return error;
+    return getErrorResponse(ERROR_CODE.UNKNOWN_SERVER_ERROR, request.header);
   }
 
-  console.log("Response body:", result);
   return result;
+}
+
+function getErrorResponse(
+  error: number,
+  requestHeader: RequestHeader
+): ResponseMessage {
+  const errorHeader = responseHeaderV0(requestHeader);
+
+  let errorBody = Buffer.alloc(2);
+  errorBody.writeInt16BE(error);
+
+  return { header: errorHeader, body: errorBody };
 }

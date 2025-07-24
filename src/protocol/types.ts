@@ -4,10 +4,6 @@ export interface RequestHeader {
   correlationId: number;
 }
 
-export interface ResponseHeader {
-  correlationId: number;
-}
-
 export interface RequestMessage {
   messageSize: number;
   header: RequestHeader;
@@ -15,7 +11,7 @@ export interface RequestMessage {
 }
 
 export interface ResponseMessage {
-  header: ResponseHeader;
+  header: Buffer;
   body: Buffer;
 }
 

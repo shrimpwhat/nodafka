@@ -1,4 +1,6 @@
 import { EMPTY_TAG_BUFFER } from "../../../constants.js";
+import { responseHeaderV1 } from "../../../protocol/header.js";
+import type { RequestMessage } from "../../../protocol/types.js";
 import {
   writeCompactArray,
   writeCompactString,
@@ -6,8 +8,8 @@ import {
 } from "../../../utils/index.js";
 import { parseBody } from "./parseBody.js";
 
-export function DescribeTopicPartitions(body: Buffer) {
-  const parsedBody = parseBody(body);
+export function DescribeTopicPartitions(request: RequestMessage) {
+  const parsedBody = parseBody(request.body);
 
   const throttleTime = Buffer.alloc(4);
 
@@ -34,10 +36,15 @@ export function DescribeTopicPartitions(body: Buffer) {
     );
   }
 
-  return Buffer.concat([
+  const body = Buffer.concat([
     throttleTime,
     writeCompactArray(topics),
     writeCursor(),
     EMPTY_TAG_BUFFER,
   ]);
+
+  return {
+    header: responseHeaderV1(request.header),
+    body,
+  };
 }
